@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\Api\V1\ProductRequest;
 use NamTran\LaravelMakeRepositoryService\Repository\RepositoryContract;
 
 /**
@@ -10,5 +11,9 @@ use NamTran\LaravelMakeRepositoryService\Repository\RepositoryContract;
  */
 interface ProductRepositoryInterface extends RepositoryContract
 {
-    //
+    /**
+     * @param ProductRequest $request
+     * @return mixed
+     */
+    public function filterProducts(ProductRequest $request);
 }

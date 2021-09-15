@@ -31,7 +31,8 @@ class ProductService implements ProductServiceInterface
     public function __construct(
         ProductRepositoryInterface $productRepository,
         CategoryRepositoryInterface $categoryRepository
-    ) {
+    )
+    {
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
     }

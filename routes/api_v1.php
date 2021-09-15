@@ -9,6 +9,7 @@ Route::group(['prefix' => 'categories'], function () {
 });
 
 Route::group(['prefix' => 'products'], function () {
+    Route::get('/', [\App\Http\Controllers\Api\V1\ProductController::class, 'index']);
     Route::post('/', [\App\Http\Controllers\Api\V1\ProductController::class, 'store']);
     Route::put('{product}', [\App\Http\Controllers\Api\V1\ProductController::class, 'update']);
     Route::delete('{product}', [\App\Http\Controllers\Api\V1\ProductController::class, 'destroy']);

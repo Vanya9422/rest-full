@@ -8,7 +8,7 @@ use App\Http\Resources\Api\V1\ProductResource;
 use App\Models\Product;
 use App\Services\ProductServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
@@ -30,6 +30,17 @@ class ProductController extends Controller
 
     /**
      * @param ProductRequest $request
+     * @return AnonymousResourceCollection
+     */
+    public function index(ProductRequest $request): AnonymousResourceCollection
+    {
+        $products = $this->productService->getRepo()->filterProducts($request);
+        dd($products);
+        return ProductResource::collection($products);
+    }
+
+    /**
+     * @param ProductRequest $request
      * @return JsonResponse|ProductResource
      */
     public function store(ProductRequest $request)
@@ -41,7 +52,7 @@ class ProductController extends Controller
 
             return (new ProductResource($product));
         } catch (\Exception $e) {
-           return response()->json([
+            return response()->json([
                 'message' => 'в системе произошла внутренняя ошибка'
             ], 400);
         }
