@@ -38,10 +38,6 @@ class ProductRequest extends FormRequest
                     "categories_ids.*" => ["sometimes", "exists:categories,id"],
                     "published" => ["sometimes", "boolean"]
                 ];
-            case "DELETE":
-                return [
-                    "id" => ["required", "exists:products"],
-                ];
             default:
                 return [];
         }
