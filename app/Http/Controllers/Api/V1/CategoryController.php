@@ -3,44 +3,42 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\CategoryRequest;
+use App\Http\Resources\Api\V1\CategoryResource;
 use App\Models\Category;
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Repositories\CategoryRepository;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class CategoryController
+ * @package App\Http\Controllers\Api\V1
+ */
 class CategoryController extends Controller
 {
-    public function index()
+    /**
+     * @param CategoryRequest $request
+     * @param CategoryRepository $categoryRepository
+     * @return JsonResponse|object
+     */
+    public function store(CategoryRequest $request, CategoryRepository $categoryRepository)
     {
-        //
+        $category = $categoryRepository->create($request->all());
+
+        return (new CategoryResource($category))->response()->setStatusCode(201);
     }
 
-    public function create()
+    /**
+     * @param Category $category
+     * @return JsonResponse
+     */
+    public function destroy(Category $category): JsonResponse
     {
-        //
-    }
+        if ($category->hasProducts()) return response()->json([
+            'message' => 'Category can not be deleted'
+        ], 403);
 
-    public function store(Request $request)
-    {
-        //
-    }
+        $category->delete();
 
-    public function show(Category $product)
-    {
-        //
-    }
-
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    public function update(Request $request, Category $product)
-    {
-        //
-    }
-
-    public function destroy(Category $product)
-    {
-        //
+        return response()->json([], 204);
     }
 }

@@ -27,4 +27,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function hasProducts()
+    {
+        return $this->products()->withTrashed()->exists();
+    }
 }
