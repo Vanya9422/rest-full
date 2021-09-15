@@ -35,7 +35,6 @@ class ProductController extends Controller
     public function index(ProductRequest $request): AnonymousResourceCollection
     {
         $products = $this->productService->getRepo()->filterProducts($request);
-        dd($products);
         return ProductResource::collection($products);
     }
 

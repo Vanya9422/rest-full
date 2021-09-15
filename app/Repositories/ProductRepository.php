@@ -49,11 +49,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         });
 
         $this->query->when(($priceFrom && !$priceTo), function ($q) use ($priceFrom) {
-            return $q->where('price', '>', $priceFrom);
+            return $q->where('price', '>=', $priceFrom);
         });
 
         $this->query->when((!$priceFrom && $priceTo), function ($q) use ($priceTo) {
-            return $q->where('price', '<', $priceTo);
+            return $q->where('price', '<=', $priceTo);
         });
 
         $this->query->when(($priceFrom && $priceTo), function ($q) use ($priceFrom, $priceTo) {
