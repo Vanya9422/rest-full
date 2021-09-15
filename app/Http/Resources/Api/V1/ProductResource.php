@@ -4,7 +4,7 @@ namespace App\Http\Resources\Api\V1;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use JsonSerializable;
 
@@ -17,7 +17,7 @@ use JsonSerializable;
  * @property mixed updated_at
  * @property mixed deleted_at
  */
-class ProductResource extends ResourceCollection
+class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -35,10 +35,11 @@ class ProductResource extends ResourceCollection
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
-            'published' => $this->published,
+            'published' => $this->published ? 1 : 0,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at
+            'deleted_at' => $this->deleted_at,
+            'categories' =>  CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
 }

@@ -20,6 +20,13 @@ class Product extends Model
     /**
      * @var string[]
      */
+    protected $casts = [
+        'published' => 'boolean'
+    ];
+
+    /**
+     * @var string[]
+     */
     protected $guarded = ['id'];
 
     /**

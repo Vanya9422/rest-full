@@ -34,7 +34,7 @@ class CategoryController extends Controller
     public function destroy(Category $category): JsonResponse
     {
         if ($category->hasProducts()) return response()->json([
-            'message' => 'Category can not be deleted'
+            'message' => 'Категория не может быть удалена'
         ], 403);
 
         $category->delete();

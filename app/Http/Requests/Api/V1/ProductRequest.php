@@ -17,15 +17,34 @@ class ProductRequest extends FormRequest
     }
 
     /**
-     * @return \string[][]
+     * @return array
      */
     public function rules(): array
     {
-        return [
-            "name" => ["required", "string", "max:250"],
-            "price" => ["required", "numeric"],
-            "published" => ["sometimes", "boolean"]
-        ];
+        switch ($this->getMethod()) {
+            case "POST":
+                return [
+                    "name" => ["required", "string", "max:250"],
+                    "price" => ["required", "numeric"],
+                    "categories_ids" => ["required", "array"],
+                    "categories_ids.*" => ["exists:categories,id"],
+                    "published" => ["sometimes", "boolean"]
+                ];
+            case "PUT":
+                return [
+                    "name" => ["sometimes", "string", "max:250"],
+                    "price" => ["sometimes", "numeric"],
+                    "categories_ids" => ["sometimes", "array"],
+                    "categories_ids.*" => ["sometimes", "exists:categories,id"],
+                    "published" => ["sometimes", "boolean"]
+                ];
+            case "DELETE":
+                return [
+                    "id" => ["required", "exists:products"],
+                ];
+            default:
+                return [];
+        }
     }
 
     protected function failedValidation(Validator $validator)
