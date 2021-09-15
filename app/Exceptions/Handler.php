@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -37,5 +38,21 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param Throwable $exception
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws Throwable
+     */
+    public function render($request, Throwable $exception)
+    {
+        // Это заменит наш ответ 404 на ответ JSON.
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json(['error' => 'Resource not found'], 404);
+        }
+
+        return parent::render($request, $exception);
     }
 }
