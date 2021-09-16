@@ -31,17 +31,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $categoryName = $request->get('categoryName');
         $priceFrom = $request->get('priceFrom');
         $priceTo = $request->get('priceTo');
-        $withTrashed = $request->get('withTrashed');
         $published = $request->get('published');
 
         $this->query->with('categories');
 
         $this->query->when($name, function ($q) use ($name) {
             return $q->where('name', 'LIKE', "%$name%");
-        });
-
-        $this->query->when(($withTrashed && $withTrashed == 1), function ($q) {
-            return $q->whereNull('deleted_at');
         });
 
         $this->query->when(($published != null && ($published == 1 || $published == 0)), function ($q) use ($published) {
