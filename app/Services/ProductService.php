@@ -72,7 +72,7 @@ class ProductService implements ProductServiceInterface
     public function updateProduct(ProductRequest $request, Product $product)
     {
         $product->categories()->sync($request->get('categories_ids'));
-        $product->update($request->except(['categories_ids', 'id']));
+        $product->update($request->except('categories_ids'));
         return $product;
     }
 }

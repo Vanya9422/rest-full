@@ -44,7 +44,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             return $q->whereNull('deleted_at');
         });
 
-        $this->query->when(($published == 1 || $published == 0), function ($q) use ($published) {
+        $this->query->when(($published != null && ($published == 1 || $published == 0)), function ($q) use ($published) {
             return $q->where('published', $published);
         });
 
